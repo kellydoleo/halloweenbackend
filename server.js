@@ -1,45 +1,44 @@
-///////////////////////////
-// Environmental Variables
-///////////////////////////
-require("dotenv").config();
-const { PORT = 3000, NODE_ENV = "development" } = process.env;
-
-//MONGO CONNECTION
-const mongoose = require("./DB/conn");
-
-//CORS
-const cors = require("cors");
-const corsOptions = require("./configs/cors.js");
-
-//Bringing in Express
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
+const cors = require('cors')
+const PORT = 3003;
 
-//OTHER IMPORTS
-const morgan = require("morgan");
-const dogRouter = require("./controllers/dog");
+const costumesController = require("./controllers/costume");
+//
+// Error / Disconnection
+mongoose.connection.on("error", err =>
+  console.log(err.message + " is Mongodb not running?")
+);
+mongoose.connection.on("disconnected", () => console.log("mongo disconnected"));
 
-////////////
-//MIDDLEWARE
-////////////
-// NODE_ENV === "production" ? app.use(cors(corsOptions)) : app.use(cors());
-app.use(cors())
-app.use(express.json());
-app.use(morgan("tiny")); //logging
+mongoose.connect("mongodb+srv://sei:sei2020@sei.rqdkr.azure.mongodb.net/costumes?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 
-///////////////
-//Routes and Routers
-//////////////
-
-//Route for testing server is working
-app.get("/", (req, res) => {
-  res.json({ hello: "Hello World!" });
+mongoose.connection.once("open", () => {
+  console.log("connected to mongoose...");
 });
 
-// Dog Routes send to dog router
-app.use("/dog", dogRouter);
+// middleware
+app.use(express.json()); //use .json(), not .urlencoded()
 
-//LISTENER
+const whitelist = ['http://localhost:3000', 'https://fathomless-sierra-68956.herokuapp.com']
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors()) // Note: all routes are now exposed. If you want to limit access for specific verbs like POST or DELETE you can look at the npm documentaion for cors (for example with OMDB - it's ok for anyone to see the movies, but you don't want just anyone adding a movie)
+
+
+// /holidays/ routes
+app.use("/costumes", costumesController);
+
+// Web server:
 app.listen(PORT, () => {
-  console.log(`Your are listening on port ${PORT}`);
+  console.log("🎉🎊", "celebrations happening on port", PORT, "🎉🎊");
 });
