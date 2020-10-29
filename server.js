@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 const cors = require('cors')
 const PORT = 3003;
 
+
+///controllers 
+const partyController = require("./controllers/party")
+const candyController = require("./controllers/candy")
 const costumesController = require("./controllers/costume");
 //
 // Error / Disconnection
@@ -35,8 +39,14 @@ const corsOptions = {
 app.use(cors()) // Note: all routes are now exposed. If you want to limit access for specific verbs like POST or DELETE you can look at the npm documentaion for cors (for example with OMDB - it's ok for anyone to see the movies, but you don't want just anyone adding a movie)
 
 
-// /holidays/ routes
+// /costumes routes
 app.use("/costumes", costumesController);
+
+//party routes
+app.use("/party", partyController)
+
+///candy routes
+app.use("/candy", candyController )
 
 // Web server:
 app.listen(PORT, () => {

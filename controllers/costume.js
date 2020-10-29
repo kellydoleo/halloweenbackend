@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 });
 
 
-///nNEW - we dont do this with an API 
+///NEW - we dont do this with an API 
 
 /////CREATE
 router.post("/", (req, res) => {
