@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const cors = require('cors')
 const PORT = 3003;
 
+
 ///controllers 
+const partyController = require("./controllers/party")
 const candyController = require("./controllers/candy")
 const costumesController = require("./controllers/costume");
 //
@@ -40,6 +42,8 @@ app.use(cors()) // Note: all routes are now exposed. If you want to limit access
 // /costumes routes
 app.use("/costumes", costumesController);
 
+//party routes
+app.use("/party", partyController)
 
 ///candy routes
 app.use("/candy", candyController )
