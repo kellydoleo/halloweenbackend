@@ -1,4 +1,7 @@
 ## USING THIS TEMPLATE:
+//App deployed to sites
+backend: https://zenproject3backend.herokuapp.com/
+frontend: https://app.netlify.com/sites/eager-ritchie-6ca558/overview
 
 - Make sure to run npm install
 
@@ -25,3 +28,4 @@ production:
 ```npm run start``` run in production more, not look for env.yaml
 
 MAKE SURE TO JOIN THE SLACK AND DISCORD COMMUNITIES AT DEVNURSERY.COM
+
