@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require('cors')
 require("dotenv").config();
-const PORT = { PORT = 4500, NODE_ENV = 'development' } = process.env;
+const PORT = process.env.PORT || 4500;
 
 
 ///controllers 
@@ -51,5 +51,5 @@ app.use("/candy", candyController )
 
 // Web server:
 app.listen(PORT, () => {
-  console.log("🎉🎊", "celebrations happening on port", PORT, "🎉🎊");
+  console.log(`🎉🎊 celebrations happening on port ${PORT} 🎉🎊`);
 });
